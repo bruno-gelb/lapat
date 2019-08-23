@@ -1,12 +1,11 @@
-import json
 import math
-import os
 import random
 from time import time
 
 import click
 
 from core.mappings import TALK_LETTERS, TALK_DIGITS_RU, TALK_DIGITS_EN
+from core.metadata import handle_metadata
 
 SPEED_THRESHOLD = 7.0
 
@@ -119,23 +118,4 @@ def talk(max_duration: float) -> None:
     click.echo(click.style(f'Средняя скорость: {round(average_speed, 2)}',
                            bold=True))
 
-    if os.path.exists('lapat_metadata.json'):
-        with open('lapat_metadata.json', 'r') as f:
-            metadata = json.load(f)
-    else:
-        metadata = {
-            'record': {
-                'mistake_percentage': mistake_percentage,
-                'average_speed': average_speed
-            }
-        }
-
-    if average_speed >= metadata['record']['average_speed'] \
-            and mistake_percentage <= metadata['record']['mistake_percentage']:
-        click.echo(
-            click.style('Новый рекорд скорости!', bold=True, fg='green')
-        )
-        metadata['record']['average_speed'] = average_speed
-        metadata['record']['mistake_percentage'] = mistake_percentage
-        with open('lapat_metadata.json', 'w') as f:
-            json.dump(metadata, f)
+    handle_metadata('talk', average_speed, mistake_percentage)

@@ -1,7 +1,7 @@
-from logging.config import listen
-
 import click
 
+from core.hybrid import hybrid
+from core.listen import listen
 from core.talk import talk
 
 
@@ -18,9 +18,11 @@ def hello(duration, mode):
     if duration <= 0:
         return
     if mode == '1':
-        listen()
+        listen(duration)
     elif mode == '2':
         talk(duration)
+    elif mode == '3':
+        hybrid(duration)
 
 
 if __name__ == '__main__':
