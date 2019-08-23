@@ -7,7 +7,7 @@ from core.talk import talk
 
 @click.command()
 @click.option('--duration',
-              type=int,
+              type=float,
               prompt=click.style('Сколько минут тренируемся', fg='yellow'),
               help='Продолжительность тренировки')
 @click.option('--mode',
@@ -20,7 +20,7 @@ def hello(duration, mode):
     if mode == '1':
         listen()
     elif mode == '2':
-        talk()
+        talk(duration)
 
 
 if __name__ == '__main__':
